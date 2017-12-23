@@ -1,29 +1,222 @@
-<html>
-<head>
-<script
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzE9xAESye6Kde-3hT-6B90nfwUkcS8Yw&sensor=false">
-</script>
 
-<script>
-function initialize()
-{
-var mapProp = {
-  center:new google.maps.LatLng(34.2143928498,117.1465301514),
-  zoom:10,
-  mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+<!DOCTYPE html>
+
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no"/>
+        <meta http-equiv="pragma" content="no-cache" />
+        <title>地图</title>
+        <link href="/css/style.css" rel="stylesheet" type="text/css"
+        />
+        <link href="/css/bubblepopup.css" rel="stylesheet" type="text/css" />
+        <link href="/css/map.css" rel="stylesheet" type="text/css" />
+        <link href="/css/ico.css" rel="stylesheet" type="text/css" />
+        <link href="/css/contextmenu.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="/js/cn.js"></script>
+        <script src="/lib/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="/ZeroClipboard.js"></script>
+        <script type="text/javascript" src="/js/core.js"></script>
+        <script type="text/javascript" src="/js/maps.js?ver=8158"></script>
+        <script type="text/javascript" src="http://ditu.google.cn/maps/api/js?key=AIzaSyB2JaRGAQuQlUJRRYRzPibWMo9jAQfC-aE&libraries=geometry,places&sensor=false&language=cn"></script>        <script type="text/javascript" src="/js/oMap.js"></script>
+        <script type="text/javascript" src="/lib/epolys.js"></script>
+        <script type="text/javascript">
+            function initialize() {
+
+				initmap(34.2143928498,117.1465301514,15);
+
+
+
+
+
+
+                $(window).bind('beforeunload', function () {
+                    var center = getcenter();
+                    var level = getzoom();
+                    SetCookie("lastlevel", level);
+                    SetCookie("lastmaptype", 'GOOGLE');
+                    SetCookie("lastlat", center.lat()); //one month
+                    SetCookie("lastlng", center.lng());
+                    return;
+                });
+
+
+            }
+        </script>
+        <style type="text/css">
+html, body {
+	height: 100%;
+	width: 100%;
+	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+}
+#map_canvas {
+	width: 100%;
+	height: 100%;
+}
+#map_message {
+	width: 400px;
+	line-height: 30px;
+	position: absolute;
+	background: white;
+	z-index: 10000;
+	left: 100px;
+	top: 50px;
+	display: none;
+}
+#searchbox_div {
+	line-height: 30px;
+	position: absolute;
+	z-index: 10000;
+	left: 150px;
+	top: 10px;
+	display: block;
+}
+#searchbox_div #map_searchbox {
+	width: 300px;
+}
+#searchbox_div > span {
+	padding: 2px 2px 3px 2px;
+	margin-left: 4px;
+	border: 1px solid red;
+	background-color: white;
+	cursor: pointer;
+}
+#mappanel_arrow_div {
+	width: 27px;
+	position: absolute;
+	z-index: 10000;
+	left: 0px;
+	top: 50%;
+	margin-top: -100px;
+	height: 200px;
+	background: url('/images/searchpanel_toggle.png') no-repeat;
+	display: block;
+}
+#mappanel_arrow_div2 {
+	width: 27px;
+	position: absolute;
+	z-index: 10000;
+	left: 0px;
+	top: 50%;
+	margin-top: -100px;
+	height: 200px;
+	background: url('/images/searchpanel.png') no-repeat;
+	display: none;
+}
+#mappanel_content_div {
+	width: 253px;
+	position: absolute;
+	z-index: 10001;
+	left: 27px;
+	top: 0px;
+	height: 100%;
+	background: white;
+	overflow-y: auto;
+	display: block;
+}
+#mappanel_div {
+	width: 280px;
+	position: absolute;
+	z-index: 1000;
+	right: -250px;
+	top: 0px;
+	height: 100%;
+	overflow-y: auto;
+	display: none;
+}
+#mappanel_div table {
+	line-height: normal;
+
+	font-size: 12px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	border-collapse: collapse;
+	font-size-adjust: none;
+	font-stretch: normal;
+}
+#mappanel_div table tr {
+	cursor: pointer;
+}
+#mappanel_div .selected {
+	background-image: none;
+	background-attachment: scroll;
+	background-repeat: repeat;
+	background-position-x: 0%;
+	background-position-y: 0%;
+	background-size: auto;
+	background-origin: padding-box;
+	background-clip: border-box;
+	background-color: rgb(240, 240, 240);
+}
+#mappanel_div tr .focus {
+	background-color: #ebf9ff;
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-</head>
 
-<body>
-  <h1>Unoffical Google Map</h1>
-  <div id="googleMap" style="width:100%;height:100%;"></div>
-  
-  
 
+#mappanel_div .t1 {
+	width: 30px;
+	text-align: right;
+	padding-top: 4px;
+	padding-right: 3px;
+	padding-bottom: 4px;
+	padding-left: 3px;
+	vertical-align: top;
+	border-bottom-color: #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+
+
+#mappanel_div .t2 {
+	line-height: 18px;
+	padding-top: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	border-bottom-color: #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+#mappanel_div .desc {
+	text-align: right;
+	color: #7777cc;
+	overflow: hidden;
+	padding-top: 2px;
+	padding-right: 2px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	margin-bottom: 0px;
+	border-bottom-color: #ccc;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	background-image: none;
+	background-attachment: scroll;
+	background-repeat: repeat;
+	background-position-x: 0%;
+	background-position-y: 0%;
+	background-size: auto;
+	background-origin: padding-box;
+	background-clip: border-box;
+	background-color: rgb(229, 236, 249);
+}
+</style>
+        </head>
+
+        <body onload="initialize()" >
+<div id="map_canvas"></div>
+<div id="searchbox_div">
+          <input type=text id="map_searchbox" placeholder="输入关键字或者经纬度"/>
+       <!--   <span id="map_searchinview">搜索</span><span id="map_searchclose">关闭</span>--></div>
+<div id="map_message"></div>
+<div id="mappanel_div">
+          <div id="mappanel_arrow_div2"></div>
+          <div id="mappanel_arrow_div"></div>
+          <div id="mappanel_content_div"></div>
+        </div>
 </body>
 </html>
