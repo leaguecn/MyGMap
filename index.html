@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
         <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=no"/>
         <meta http-equiv="pragma" content="no-cache" />
         <title>地图</title>
-        <link href="/css/style.css" rel="stylesheet" type="text/css"
-        />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
         <link href="/css/bubblepopup.css" rel="stylesheet" type="text/css" />
         <link href="/css/map.css" rel="stylesheet" type="text/css" />
         <link href="/css/ico.css" rel="stylesheet" type="text/css" />
@@ -20,14 +18,7 @@
         <script type="text/javascript" src="/lib/epolys.js"></script>
         <script type="text/javascript">
             function initialize() {
-
-				initmap(39.911086315201956, 116.38452512689207,15);
-
-
-
-
-
-
+		initmap(39.911086315201956, 116.38452512689207,15);
                 $(window).bind('beforeunload', function () {
                     var center = getcenter();
                     var level = getzoom();
@@ -37,7 +28,6 @@
                     SetCookie("lastlng", center.lng());
                     return;
                 });
-
 
             }
         </script>
@@ -204,9 +194,9 @@ html, body {
 	background-color: rgb(229, 236, 249);
 }
 </style>
-        </head>
+</head>
 
-        <body onload="initialize()" >
+<body onload="initialize()" >
 <div id="map_canvas"></div>
 <div id="searchbox_div">
           <input type=text id="map_searchbox" placeholder="输入关键字或者经纬度"/>
